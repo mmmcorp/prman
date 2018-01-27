@@ -1,6 +1,6 @@
-# prman - inform pull requests to slack for MMM
+# prman - bot to inform pull requests to slack created for MMMcorp
 
-prman is  slack slash command written in Go.
+prman is slack slash command written in Go.
 prman gives you information of pull request that is not WIP && review requested to you.
 
 ## Table of Contents
@@ -82,6 +82,12 @@ Get pull requests that requested review to `user`:
 ```
 
 `user` must be slack username, **not** github username.
+
+## FAQ
+
+* How prman decide whether pull request is wip?
+
+If title of pr is starts with `WIP` or `(WIP)` or `[WIP]` or `【WIP】` , prman will think it is wip.
 
 ## License
 MIT
