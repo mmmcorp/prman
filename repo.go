@@ -37,7 +37,7 @@ func (repo repo) getPullRequestReviewRequestedFor(user string) (string, error) {
 	}
 	for _, pr := range *prs {
 		if !pr.isWIP() && pr.isContainingAsReviewer(user) {
-			response += fmt.Sprintf("* %v : %v(%v)\n", repo.Name, pr.Title, pr.URL)
+			response += fmt.Sprintf("* %v : %v(%v)\n", repo.Name, pr.Title, pr.HTMLURL)
 		}
 	}
 	return response, nil

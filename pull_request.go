@@ -5,7 +5,7 @@ import "strings"
 type pullRequests []pullRequest
 
 type pullRequest struct {
-	URL                string `json:"url"`
+	HTMLURL            string `json:"html_url"`
 	Title              string `json:"title"`
 	RequestedReviewers users  `json:"requested_reviewers"`
 }
