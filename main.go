@@ -26,9 +26,15 @@ func firstResponse(w http.ResponseWriter) {
 }
 
 func secondResponse(req slackRequest) {
+	if !req.isValid() {
+		response(req.responseURL, "invalid token")
+		return
+	}
+
 	githubUser, err := convertSlackUserNameToGithubUserName(req.getUser())
 	if err != nil {
 		response(req.responseURL, err.Error())
+		return
 	}
 
 	c = newClient(os.Getenv("PR_GITHUB_ORG"), os.Getenv("PR_GITHUB_TOKEN"))
@@ -36,11 +42,13 @@ func secondResponse(req slackRequest) {
 	repos, err := c.getRepos()
 	if err != nil {
 		response(req.responseURL, err.Error())
+		return
 	}
 
 	res, err := repos.getPullRequestsReviewRequestedFor(githubUser)
 	if err != nil {
 		response(req.responseURL, err.Error())
+		return
 	}
 
 	response(req.responseURL, res)

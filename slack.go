@@ -4,6 +4,7 @@ import (
 	"errors"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -25,6 +26,10 @@ func (sr slackRequest) getUser() string {
 		return sr.text
 	}
 	return sr.userName
+}
+
+func (sr slackRequest) isValid() bool {
+	return sr.token == os.Getenv("PR_VALID_TOKEN")
 }
 
 func getRequestFromSlashRequest(r *http.Request) slackRequest {
