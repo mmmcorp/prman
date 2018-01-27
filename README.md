@@ -18,7 +18,19 @@ $ go get github.com/ygnmhdtt/prman
 
 You need 3 configurations.
 
-### 1. Environment Variables
+### 1. Create Slash command for your workspace
+
+Create Slash command by [here](https://api.slack.com/slash-commands).
+
+Here is configs:
+
+* `command name` : as you like
+* `URL` : your_server:7000
+* `Method` : `Post`
+* `Name` `Icon` : as you like
+* `escape` : `off`
+
+### 2. Environment Variables
 
 prman requires 2 environment variables.
 
@@ -29,7 +41,7 @@ PR_GITHUB_ORGANIZATION="exampleorg"
 
 You can create `PR_GITHUB_TOKEN` by [Personal API tokens](https://github.com/blog/1509-personal-api-tokens).
 
-### 2. create json file
+### 3. create json file
 
 You need to create `prman-members.json` .
 It must be placed same directory as prman binary file.
@@ -53,18 +65,6 @@ When 1 and 2 config has done, please run prman on your server like:
 ```
 $ $GOPATH/bin/prman &
 ```
-
-### 3. Create Slash command for your workspace
-
-Create Slash command by [here](https://api.slack.com/slash-commands).
-
-Here is configs:
-
-* `command name` : as you like
-* `URL` : your_server:7000
-* `Method` : `Post`
-* `Name` `Icon` : as you like
-* `escape` : `off`
 
 ## License
 MIT
