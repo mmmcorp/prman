@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 )
@@ -10,30 +9,35 @@ import (
 var c *client
 
 func pullRequestController(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+
 	su, err := getUserFromSlashRequest(r)
 	if err != nil {
-		log.Println(err)
+		response(w, err.Error())
 	}
 
 	githubUser, err := convertSlackUserNameToGithubUserName(su)
 	if err != nil {
-		log.Println(err)
+		response(w, err.Error())
 	}
 
 	c = newClient(os.Getenv("PR_GITHUB_ORG"), os.Getenv("PR_GITHUB_TOKEN"))
 	repos, err := c.getRepos()
 	if err != nil {
-		log.Println(err)
+		response(w, err.Error())
 	}
 
-	response, err := repos.getPullRequestsReviewRequestedFor(githubUser)
+	res, err := repos.getPullRequestsReviewRequestedFor(githubUser)
 	if err != nil {
-		log.Println(err)
+		response(w, err.Error())
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, fmt.Sprintf("{\"response_type\":\"in_channel\",\"text\":\"%v\"}", response))
+	response(w, res)
+}
+
+func response(w http.ResponseWriter, body string) {
+	fmt.Fprintf(w, fmt.Sprintf("{\"response_type\":\"in_channel\",\"text\":\"%v\"}", body))
 }
 
 func main() {
