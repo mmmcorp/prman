@@ -7,6 +7,45 @@ import (
 	"strings"
 )
 
+type slackRequest struct {
+	token       string
+	teamID      string
+	teamDomain  string
+	channelID   string
+	channelName string
+	userID      string
+	userName    string
+	command     string
+	text        string
+	responseURL string
+}
+
+func (sr slackRequest) getUser() string {
+	if sr.text != "" {
+		return sr.text
+	}
+	return sr.userName
+}
+
+func getRequestFromSlashRequest(r *http.Request) slackRequest {
+	bbody, _ := ioutil.ReadAll(r.Body)
+	body := string(bbody)
+	arr := strings.Split(body, "&")
+	req := slackRequest{
+		token:       getText(arr, "token"),
+		teamID:      getText(arr, "team_id"),
+		teamDomain:  getText(arr, "team_domain"),
+		channelID:   getText(arr, "channel_id"),
+		channelName: getText(arr, "channel_name"),
+		userID:      getText(arr, "user_id"),
+		userName:    getText(arr, "user_name"),
+		command:     getText(arr, "command"),
+		text:        getText(arr, "text"),
+		responseURL: getText(arr, "response_url"),
+	}
+	return req
+}
+
 func getUserFromSlashRequest(r *http.Request) (string, error) {
 	bbody, _ := ioutil.ReadAll(r.Body)
 	body := string(bbody)
