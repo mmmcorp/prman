@@ -30,6 +30,8 @@ Configs:
 * `Name` `Icon` : as you like
 * `escape` : `off`
 
+And, `token` must be exported following configuration.
+
 ### 2. Environment Variables
 
 prman requires 2 environment variables.
@@ -37,7 +39,10 @@ prman requires 2 environment variables.
 ```
 PR_GITHUB_TOKEN="123412341234xxxxyyyyzzzz"
 PR_GITHUB_ORGANIZATION="exampleorg"
+PR_VALID_TOKEN="11112222hhhhkkkk"
 ```
+
+`PR_VALID_TOKEN` is token slack generated.
 
 You can create `PR_GITHUB_TOKEN` at  [Personal API tokens](https://github.com/blog/1509-personal-api-tokens).
 If you want to get information of private repositories, token must have permission to get them.
@@ -72,13 +77,13 @@ $ $GOPATH/bin/prman &
 Get pull requests that requested review to you:
 
 ```
-/pr
+/gp
 ```
 
 Get pull requests that requested review to `user`:
 
 ```
-/pr user
+/gp user
 ```
 
 `user` must be slack username, **not** github username.
