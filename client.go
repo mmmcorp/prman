@@ -39,7 +39,7 @@ func newClient(org string, auth string) *client {
 func (c *client) newRequest(method string, spath string, body io.Reader) (*http.Request, error) {
 	u := *c.URL
 	u.Path = path.Join(c.URL.Path, spath)
-	req, err := http.NewRequest(method, u.String(), body)
+	req, err := http.NewRequest(method, u.String()+"?per_page=10000", body)
 	if err != nil {
 		return nil, err
 	}
