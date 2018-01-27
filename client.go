@@ -62,6 +62,21 @@ func (c *client) getRepos() (*repos, error) {
 	return &repos, err
 }
 
+func (c *client) getIssueComments(repo string, number int) (*issueComments, error) {
+	spath := fmt.Sprintf("/repos/%v/%v/issues/%v/comments", c.Org, repo, number)
+	req, _ := c.newRequest("GET", spath, nil)
+	res, err := c.HTTPClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+	var is issueComments
+	if err := decodeBody(res, &is); err != nil {
+		return nil, err
+	}
+	return &is, err
+}
+
 func (c *client) getPRs(repo string) (*pullRequests, error) {
 	spath := fmt.Sprintf("/repos/%v/%v/pulls", c.Org, repo)
 	req, _ := c.newRequest("GET", spath, nil)
