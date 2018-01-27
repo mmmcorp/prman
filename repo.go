@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -15,6 +16,7 @@ func (repos repos) getPullRequestsReviewRequestedFor(user string) (string, error
 	response := "WIPでない、レビュアーに指定されているPRをお知らせします。\n"
 	response += "```\n"
 	var wg sync.WaitGroup
+	var updated bool
 	for _, r := range repos {
 		wg.Add(1)
 		go func(r repo) {
@@ -22,12 +24,19 @@ func (repos repos) getPullRequestsReviewRequestedFor(user string) (string, error
 			if err != nil {
 				panic(err)
 			}
-			response += res
+			if res != "" {
+				response += res
+				updated = true
+			}
 			wg.Done()
 		}(r)
 	}
 	wg.Wait()
 	response += "```\n"
+	if !updated {
+		response = strings.Replace(response, "`", "", -1)
+		response += "レビュー待ちになっているPRはありませんでした!! :tada:"
+	}
 	return response, nil
 }
 
