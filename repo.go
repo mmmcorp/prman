@@ -13,7 +13,7 @@ type repo struct {
 }
 
 func (repos repos) getPullRequestsReviewRequestedFor(user string) (string, error) {
-	response := "WIPでない、レビュアーに指定されているPRをお知らせします。\n"
+	response := "WIPでなく、レビュアーに指定されているPRをお知らせします。\n"
 	response += "```\n"
 	var wg sync.WaitGroup
 	var updated bool
