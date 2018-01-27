@@ -1,5 +1,8 @@
 # prman - inform pull requests to slack for MMM
 
+prman is  slack slash command written in Go.
+prman gives you information of pull request that is not WIP && review requested to you.
+
 ## Table of Contents
 
 * [Installation](#installation)
@@ -8,24 +11,21 @@
 
 ## Installation
 
-This library doesn't depends on any other packages.
 
 ```
 $ go get github.com/ygnmhdtt/prman
 ```
 
-## Usage
-
-You need 3 configurations.
+### Setup
 
 ### 1. Create Slash command for your workspace
 
-Create Slash command by [here](https://api.slack.com/slash-commands).
+Create Slash command . [reference](https://api.slack.com/slash-commands).
 
-Here is configs:
+Configs:
 
 * `command name` : as you like
-* `URL` : your_server:7000
+* `URL` : `your_server:7000`
 * `Method` : `Post`
 * `Name` `Icon` : as you like
 * `escape` : `off`
@@ -39,14 +39,15 @@ PR_GITHUB_TOKEN="123412341234xxxxyyyyzzzz"
 PR_GITHUB_ORGANIZATION="exampleorg"
 ```
 
-You can create `PR_GITHUB_TOKEN` by [Personal API tokens](https://github.com/blog/1509-personal-api-tokens).
+You can create `PR_GITHUB_TOKEN` at  [Personal API tokens](https://github.com/blog/1509-personal-api-tokens).
+If you want to get information of private repositories, token must have permission to get them.
 
 ### 3. create json file
 
-You need to create `prman-members.json` .
-It must be placed same directory as prman binary file.
+Create `prman-members.json` .
+It must be placed at same directory as prman binary file.
 
-Here is sample:
+Sample:
 
 ```
 {
@@ -60,11 +61,27 @@ Here is sample:
 
 left side of `:` is slack username. The other is github username.
 
-When 1 and 2 config has done, please run prman on your server like:
+Then, please run prman on your server like:
 
 ```
 $ $GOPATH/bin/prman &
 ```
+
+## Usage
+
+Get pull requests that requested review to you:
+
+```
+/pr
+```
+
+Get pull requests that requested review to `user`:
+
+```
+/pr user
+```
+
+`user` must be slack username, **not** github username.
 
 ## License
 MIT
