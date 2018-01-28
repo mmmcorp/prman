@@ -17,6 +17,7 @@ func (repos repos) getPullRequestsReviewRequestedFor(user string) (string, error
 	response += "```\n"
 	var wg sync.WaitGroup
 	var updated bool
+	// リポジトリごとにマルチスレッドで処理する
 	for _, r := range repos {
 		wg.Add(1)
 		go func(r repo) {
@@ -51,7 +52,7 @@ func (repo repo) getPRFor(user string) (string, error) {
 		if err != nil {
 			return "", err
 		}
-		if !pr.isWIP() && pr.mustReviewedBy(user) && !comments.hasReviewCommentFrom(user) {
+		if !pr.isWIP() && pr.mustBeReviewedBy(user) && !comments.hasReviewCommentFrom(user) {
 			response += fmt.Sprintf("* %v\t: %v(%v)\n", repo.Name, pr.Title, pr.HTMLURL)
 		}
 	}

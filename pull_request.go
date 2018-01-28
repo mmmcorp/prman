@@ -15,6 +15,6 @@ func (pr *pullRequest) isWIP() bool {
 	return strings.HasPrefix(pr.Title, "WIP") || strings.HasPrefix(pr.Title, "(WIP)") || strings.HasPrefix(pr.Title, "[WIP]") || strings.HasPrefix(pr.Title, "【WIP】")
 }
 
-func (pr *pullRequest) mustReviewedBy(user string) bool {
+func (pr *pullRequest) mustBeReviewedBy(user string) bool {
 	return strings.Contains(pr.Body, user)
 }
