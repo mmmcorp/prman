@@ -25,6 +25,7 @@ func firstResponse(w http.ResponseWriter) {
 	fmt.Fprintf(w, "{\"response_type\":\"in_channel\",\"text\":\"PRを調べています..\"}")
 }
 
+// 本体
 func secondResponse(req slackRequest) {
 	if !req.isValid() {
 		response(req.responseURL, "invalid token")
