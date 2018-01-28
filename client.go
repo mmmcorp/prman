@@ -32,7 +32,8 @@ func newClient(org string, auth string) *client {
 	client.Org = org
 	client.HTTPClient = &http.Client{}
 	client.Authorization = auth
-	client.Logger = log.New(os.Stdout, "logger: ", log.Lshortfile)
+	f, _ := os.OpenFile("access.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0755)
+	client.Logger = log.New(f, "logger: ", log.Ldate|log.Ltime|log.Lmicroseconds|log.Lshortfile)
 	return client
 }
 
