@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -49,19 +48,6 @@ func getRequestFromSlashRequest(r *http.Request) slackRequest {
 		responseURL: getText(arr, "response_url"),
 	}
 	return req
-}
-
-func getUserFromSlashRequest(r *http.Request) (string, error) {
-	bbody, _ := ioutil.ReadAll(r.Body)
-	body := string(bbody)
-	arr := strings.Split(body, "&")
-	if getText(arr, "text") != "" {
-		return getText(arr, "text"), nil
-	}
-	if getText(arr, "user_name") != "" {
-		return getText(arr, "user_name"), nil
-	}
-	return "", errors.New("user_nameパラメータがありません。")
 }
 
 func getText(source []string, target string) string {
