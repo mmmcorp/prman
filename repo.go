@@ -36,7 +36,7 @@ func (repos repos) getPullRequestsReviewRequestedFor(user string) (string, error
 	response += "```\n"
 	if !updated {
 		response = strings.Replace(response, "`", "", -1)
-		response += "レビュー待ちになっているPRはありませんでした!! :tada:"
+		response += "レビュー待ちになっているPRはありませんでした!! :tada:\n"
 	}
 	return response, nil
 }

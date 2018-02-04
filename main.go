@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"time"
 )
 
 var c *client
@@ -34,6 +35,7 @@ func firstResponse(w http.ResponseWriter) {
 
 // 本体
 func secondResponse(req slackRequest) {
+	start := time.Now()
 	c.Logger.Printf("isValid関数を開始します。requested by : %v \n", req.getUser())
 	if !req.isValid() {
 		c.Logger.Printf("Errorが起こりました。err: %v, requested by: %v \n", "invalid token", req.getUser())
@@ -67,6 +69,11 @@ func secondResponse(req slackRequest) {
 		return
 	}
 	c.Logger.Printf("res: %v , requested by : %v \n", res, req.getUser())
+	end := time.Now()
+	if req.isDebug() {
+		res += fmt.Sprintf("start: %v\n", start)
+		res += fmt.Sprintf("end: %v\n", end)
+	}
 
 	c.Logger.Printf("response関数を開始します。requested by : %v \n", req.getUser())
 	response(req.responseURL, res)

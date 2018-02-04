@@ -21,14 +21,21 @@ type slackRequest struct {
 }
 
 func (sr slackRequest) getUser() string {
-	if sr.text != "" {
-		return sr.text
+	if sr.text == "" {
+		return sr.userName
 	}
-	return sr.userName
+	if sr.text == "-d" {
+		return sr.userName
+	}
+	return strings.Split(sr.text, "+")[0]
 }
 
 func (sr slackRequest) isValid() bool {
 	return sr.token == os.Getenv("PR_VALID_TOKEN")
+}
+
+func (sr slackRequest) isDebug() bool {
+	return strings.Contains(sr.text, "-d")
 }
 
 func getRequestFromSlashRequest(r *http.Request) slackRequest {
